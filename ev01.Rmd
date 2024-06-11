@@ -1,9 +1,3 @@
----
-title: "Evidencia_1"
-author: "Erick Alejandro Ramírez González A01637436 & Ana Camila Jiménez Mendoza A01174422"
-date: "2023-05-01"
-output: html_document
----
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
