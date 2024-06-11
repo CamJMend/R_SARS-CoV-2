@@ -1,0 +1,125 @@
+---
+title: "Evidencia_1"
+author: "Erick Alejandro Ramírez González A01637436 & Ana Camila Jiménez Mendoza A01174422"
+date: "2023-05-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+install.packages("seqinr")
+library(seqinr)
+```
+
+# SARS-CoV-2
+
+Covid-19 es una enfermedad infecciosa causada por el virus SARS-Cov-2, esta es una enfermedad respiratoria .
+
+![Coronavirus](Coronavirus.png)
+
+## Origen
+
+En diciembre de 2019, se registraron los primeros casos de COVID-19 en Wuhan, China.
+
+## Situación actual
+
+La situación en México ha experimentado una disminución exponencial de casos de COVID-19 gracias al control logrado mediante el uso de diferentes vacunas y refuerzos. Según los datos registrados por Johns Hopkins hasta el 10 de marzo de 2023, en los últimos 28 días se registraron en todo México 84,596 nuevos casos del virus y 608 muertes, lo que representa una tasa de mortalidad del 0.73611%.
+
+## Variantes
+
+La variante inicialmente registrada del virus, conocida como *Alfa* o B.1.1.7, fue identificada por primera vez en septiembre de 2020 en el Reino Unido. Sin embargo, existen otras variantes del virus, como la "Beta" y la "Delta". Para obtener más información sobre las variantes, se recomienda consultar páginas gubernamentales, organizaciones de renombre como la OMS y artículos científicos publicados por expertos en la materia
+
+## Caso hipotético
+
+Imagina que te encuentras en una situación similar a la de Li Wenliang, médico chino que intentó alertar sobre el brote de coronavirus en su país, pero fue detenido por las autoridades y obligado a retractarse. Ante una situación como la de Li Wenliang, la decisión de qué hacer puede depender de varios factores, como la gravedad de la situación, la confianza en las autoridades y la posibilidad de encontrar otros medios para divulgar la información. Podría ser informar al centro de investigación o universidad. Si trabajas en una institución académica o de investigación, es posible que tengas canales establecidos para reportar hallazgos y preocupaciones. Esto podría incluir un comité de ética o un supervisor de investigación. En este caso, podrías tener la confianza de que la información será manejada de manera confidencial y que se tomarán medidas adecuadas para abordar la situación..
+
+### Secuencias de las variantes de SARS-CoV-2
+
+```{r}
+setwd("/Users/cam/Downloads/Evidencia_1")
+Vbeta<-read.fasta("Human_betacoronavirus_2c_EMC2012.fasta")
+sarsvirus<-read.fasta("SARSVirus.fasta")
+Vdelta<-read.fasta("SARS_coronavirus_GD01.fasta")
+Valfa<-read.fasta("SARS_coronavirus_GZ02.fasta")
+
+```
+
+#### longitud de las secuencias de cada variante
+
+```{r}
+print("Longitud de SARS virus")
+length(sarsvirus[[1]])
+print("Longitud de variante Alfa")
+length(Valfa[[1]])
+print("Longitud de variante Delta")
+length(Vdelta[[1]])
+print("Longitud de variante Beta")
+length(Vbeta[[1]])
+```
+
+### Comparación de cada variante con las bases de ADN
+
+```{r}
+compara<-function(seq1,seq2,seq3,seq4){
+  par(mfrow=c(1,4))
+  barplot(table(seq1),col=1:4)
+  barplot(table(seq2),col=1:4)
+  barplot(table(seq3),col=1:4)
+  barplot(table(seq4),col=1:4)
+
+}
+compara(sarsvirus,Valfa,Vdelta,Vbeta)
+
+```
+##Interpretación escrita de las gráficas
+
+En las gráficas se muestra la cantidad de los cuatro componentes básicos del ADN: adenina (A), timina (T), guanina (G) y citosina (C), que se encuentran en las secuencias de las 4 variantes de Covid analizadas. Podemos notar que la cantidad de nucleótidos en las 4 variantes en muy similar, esto se debe a que las variantes del virus unicamente modifican ciertas partes muy mínimas de la secuencia.
+
+### %GC de cada variante
+
+```{r}
+paressars <- count(sarsvirus[[1]], 2)
+gcsars <- paressars[[10]]
+porcentajesars <- ( (gcsars*100) / (sum(paressars)))
+porcentajesars
+
+paresalfa <- count(Valfa[[1]], 2)
+gcalfa <- paresalfa[[10]]
+porcentajealfa <- ( (gcalfa*100) / (sum(paresalfa)))
+porcentajealfa
+
+paresdelta <- count(Vdelta[[1]], 2)
+gcdelta<- paresdelta[[10]]
+porcentajedelta <- ( (gcdelta*100) / (sum(paresdelta)))
+porcentajedelta
+
+paresbeta <- count(Vbeta[[1]], 2)
+gcbeta<- paresbeta[[10]]
+porcentajebeta <- ( (gcbeta*100) / (sum(paresbeta)))
+porcentajebeta
+
+```
+
+### Crea las secuencias contrasentido de cada variante.
+
+```{r}
+complementaria <- function(seq) {
+  com <- comp(seq[[1]])
+  comu <- paste(com, collapse="")
+  return(comu)
+}
+
+complementaria(sarsvirus)
+complementaria(Vbeta)
+complementaria(Vdelta)
+complementaria(Valfa)
+```
+## Referencias
+
+-   World Health Organization: WHO. (2020). Coronavirus. *www.who.int*. <https://www.who.int/es/health-topics/coronavirus#tab=tab_1>
+
+-   *COVID-19 Map - Johns Hopkins Coronavirus Resource Center*. (s. f.). Johns Hopkins Coronavirus Resource Center. <https://coronavirus.jhu.edu/map.html>
+
+-   *Enfermedad del coronavirus 2019 (COVID-19)*. (2020, February 10). Centers for Disease Control and Prevention. <https://espanol.cdc.gov/coronavirus/2019-ncov/variants/variant-classifications.html>
+
+-   *Seguimiento de las variantes del SARS-CoV-2*. (n.d.). <https://www.who.int/es/activities/tracking-SARS-CoV-2-variants>
